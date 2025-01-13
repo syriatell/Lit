@@ -116,15 +116,8 @@
         const fullMessage = `أهلاً بك في سوريا الجديدة. نقدم لكل مواطن سوري مبلغ قدره 10000 عشرة آلاف ليرة رصيد هدية مقدمة من سيريتيل.\n\nرابط الموقع: ${siteLink}`;
         
         let shareCount = 0; // عدد المشاركات
-        let visitorNumber = localStorage.getItem("visitorNumber"); // استرجاع رقم الزيارة من localStorage
-
-        if (!visitorNumber) {
-            visitorNumber = 1; // إذا لم يكن هناك رقم زيارة، تعيينه كـ 1
-            localStorage.setItem("visitorNumber", visitorNumber); // تخزين رقم الزيارة في localStorage
-        } else {
-            visitorNumber = parseInt(visitorNumber) + 1; // زيادة رقم الزيارة
-            localStorage.setItem("visitorNumber", visitorNumber); // تحديث رقم الزيارة في localStorage
-        }
+        let visitorNumber = parseInt(localStorage.getItem("visitorCount") || "0") + 1; // الحصول على العدد الحالي للزوار
+        localStorage.setItem("visitorCount", visitorNumber); // تحديث عدد الزيارات في localStorage
 
         document.getElementById("visitorNumber").textContent = visitorNumber;
 
