@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+كيف يمكنني وضع عداد لعدد الزوار لكل زائر يرى هو رقم كم الذي دخل <!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
@@ -97,9 +97,9 @@
         <li>2. اضغط الزر رقم اثنين وهو سيقوم بنسخ الكود الخاص وارساله لنا عبر رساله وارسال جائزتك آب.</li>
     </ul>
     <p><strong>ملاحظة:</strong> يرجى عدم ضغط زر 2 حتى تقوم بمشاركة المنشور لخمس أشخاص كي تصلك الهدية.</p>
-
-    <!-- عرض رقم الزيارة للزائر -->
-    <p id="visitorNumberMessage">رقم زيارتك: <span id="visitorNumber">1</span></p>
+    
+    <!-- عرض عدد المشاركات المتبقية -->
+    <p id="shareCountMessage">المشاركات المتبقية للفوز: <span id="remainingShares">5</span></p>
 
     <div class="buttons">
         <button id="shareBtn" onclick="shareOnWhatsApp()">زر 1: شارك عبر واتس آب</button>
@@ -116,17 +116,6 @@
         const fullMessage = `أهلاً بك في سوريا الجديدة. نقدم لكل مواطن سوري مبلغ قدره 10000 عشرة آلاف ليرة رصيد هدية مقدمة من سيريتيل.\n\nرابط الموقع: ${siteLink}`;
         
         let shareCount = 0; // عدد المشاركات
-        let visitorNumber = localStorage.getItem("visitorNumber"); // استرجاع رقم الزيارة من localStorage
-
-        if (!visitorNumber) {
-            visitorNumber = 1; // إذا لم يكن هناك رقم زيارة، تعيينه كـ 1
-            localStorage.setItem("visitorNumber", visitorNumber); // تخزين رقم الزيارة في localStorage
-        } else {
-            visitorNumber = parseInt(visitorNumber) + 1; // زيادة رقم الزيارة
-            localStorage.setItem("visitorNumber", visitorNumber); // تحديث رقم الزيارة في localStorage
-        }
-
-        document.getElementById("visitorNumber").textContent = visitorNumber;
 
         // وظيفة مشاركة الرسالة عبر واتس آب
         function shareOnWhatsApp() {
