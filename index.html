@@ -120,15 +120,33 @@
         
         let shareCount = 0; // عدد المشاركات
 
-        // تحديث عدد الزوار في localStorage
-        if (localStorage.getItem("visitorCount")) {
-            var visitorCount = parseInt(localStorage.getItem("visitorCount"));
-        } else {
-            var visitorCount = 0;
+        // تخزين الرقم الأولي 794688
+        let initialVisitorCount = 794688;
+
+        // تحقق من أن الزائر لم يدخل بعد في هذه الجلسة
+        if (!sessionStorage.getItem("hasVisited")) {
+            // إذا كان الزائر جديدًا، قم بتخزين حالته في sessionStorage
+            sessionStorage.setItem("hasVisited", "true");
+
+            // قم بتحديث عدد الزوار على الخادم عبر AJAX (أو API)
+            updateVisitorCount();
         }
-        visitorCount++;
-        localStorage.setItem("visitorCount", visitorCount);
-        document.getElementById("visitorCount").textContent = visitorCount;
+
+        // تحديث عدد الزوار من الخادم (افترض أن لديك API أو خدمة لزيادة العدد)
+        function updateVisitorCount() {
+            // استدعاء API لزيادة عدد الزوار
+            fetch("/updateVisitorCount", { 
+                method: "POST", 
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ count: initialVisitorCount })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // تحديث العد مع القيمة القادمة من الخادم
+                    document.getElementById("visitorCount").textContent = data.visitorCount;
+                })
+                .catch(error => console.error('Error:', error));
+        }
 
         // وظيفة مشاركة الرسالة عبر واتس آب
         function shareOnWhatsApp() {
